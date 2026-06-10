@@ -197,7 +197,16 @@ INSERT INTO board (title, content, id) VALUES
 
 SELECT * FROM board;
 
+CREATE TABLE phonebook
+(
+    idx INT NOT NULL AUTO_INCREMENT,    -- 자동으로 증가하는 고유 번호 (기본키)
+    name VARCHAR(30) NOT NULL,          -- 성명 (필수 입력)
+    phone VARCHAR(20) NOT NULL,         -- 전화번호 (필수 입력)
+    addr VARCHAR(100),                  -- 주소 (선택 입력 가능)
+    PRIMARY KEY (idx)                   -- idx 컬럼을 기본키로 설정
+);
 
+SELECT * FROM phonebook;
 
 
 
