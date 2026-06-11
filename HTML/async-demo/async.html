@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>비동기(fetch) 학습 예제</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>비동기(fetch) 학습 예제</h1>
+
+  <div class="buttons">
+    <!-- 각 버튼은 파라미터(dataA, dataB, dataC)를 전달하여 같은 함수를 호출한다 -->
+    <button onclick="loadData('dataA')">버튼 A</button>
+    <button onclick="loadData('dataB')">버튼 B</button>
+    <button onclick="loadData('dataC')">버튼 C</button>
+  </div>
+
+  <div id="result">
+    <p class="loading">버튼을 눌러 보세요.</p>
+  </div>
+
+  <script>
+    // 파라미터(param)에 따라 dataA.json, dataB.json, dataC.json 중 하나를 비동기로 요청한다.
+    function loadData(param) {
+      const resultDiv = document.getElementById('result');
+
+      // 요청을 보낸 직후: 1초 대기 후 비동기 요청을 시작한다.
+      resultDiv.innerHTML = '<p class="loading">' + param + '.json 요청 준비 중... (1초 대기)</p>';
+
+      setTimeout(function () {
+        fetch(param + '.json')                 // 1. 서버에 비동기 요청을 보낸다
+          .then(response => response.json())   // 2. 응답이 도착하면 JSON으로 변환한다 (콜백)
+          .then(data => {                      // 3. 변환된 데이터를 받아 화면을 변경한다 (콜백)
+            resultDiv.innerHTML =
+              '<h2>' + data.title + '</h2>' +
+              '<p>' + data.message + '</p>';
+          })
+          .catch(error => {                    // 4. 오류가 발생하면 처리한다
+            resultDiv.innerHTML = '<p>오류 발생: ' + error.message + '</p>';
+          });
+      }, 1000);
+
+      // 이 코드는 fetch 응답을 기다리지 않고 즉시 실행된다 (비동기 증명)
+      console.log(param + ' 버튼 클릭: fetch 호출 직후, 응답 도착 전!');
+    }
+  </script>
+</body>
+</html>
